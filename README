@@ -1,0 +1,30 @@
+Date: 2021/07/15
+Author: Cheng You, Chang
+
+==================================
+# protobuf and socket
+This is a simple protobuf sample code
+require env: proto3
+
+## file discription
+test0715.proto: proto file needed in protobuf
+*compile this: protoc test0715.proto --cpp_out=./
+
+testc.cpp: test cpp program
+*compile this: g++ testc.cpp test0715.pb.cc -lprotobuf
+*run: ./a.out 
+
+server0715.cpp: test server sample code
+*compile this: g++ -o server server0715.cpp test0715.pb.cc -lprotobuf
+*run: ./server
+
+client0715.cpp: test client sample code
+*compile this: g++ -o client client0715.cpp test0715.pb.cc -lprotobuf
+*run: ./client
+
+==================================
+ref:
+google protobuf basic: https://developers.google.com/protocol-buffers/docs/cpptutorial
+protobuf example url: https://blog.csdn.net/K346K346/article/details/51754431
+C++ socket example url: https://www.geeksforgeeks.org/socket-programming-cc/
+integrate example url: https://blog.csdn.net/cjf_wei/article/details/52894560
