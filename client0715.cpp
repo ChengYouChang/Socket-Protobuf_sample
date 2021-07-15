@@ -39,23 +39,22 @@ int main(int argc, char const *argv[])
         return -1;
     }
 
-    send(sock , hello , strlen(hello) , 0 );
-    printf("Hello message sent\n");
-    valread = read( sock , buffer, 1024);
-    printf("%s\n",buffer );
-
+    //send(sock , hello , strlen(hello) , 0 );
+    //printf("Hello message sent\n");
+    //valread = read( sock , buffer, 1024);
+    //printf("%s\n",buffer );
+    
     // ===========================================
     // protobuf test
-
+    cout<<"----------------------------\n";
     myPackage::student s2;
     char buf[1024];
 
-    read( sock, buf, 1024);
-	s2.ParseFromString(buf);
+    read( sock , buf, 1024);
+	s2.ParseFromArray(buf, 1024);
 	cout<<"name: "<<s2.name()<<endl;
 	cout<<"number: "<<s2.number()<<endl;
 	cout<<"id: "<<s2.id()<<endl;
-
 
     // ===========================================
     return 0;
