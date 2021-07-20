@@ -1,0 +1,5 @@
+alias p="protoc test0715.proto --cpp_out=./"
+alias t="g++ testc.cpp test0715.pb.cc -lprotobuf"
+alias trd="g++ -o trd test_repeated_data.cpp test0715.pb.cc -lprotobuf"
+alias s="g++ -o server server0715.cpp test0715.pb.cc -lprotobuf"
+alias c="g++ -o client client0715.cpp test0715.pb.cc -lprotobuf"

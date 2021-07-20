@@ -1,6 +1,8 @@
 Date: 2021/07/15
 Author: Cheng You, Chang
 
+if you want to use alias=> source setMacro.sh
+
 ==================================
 # protobuf and socket
 This is a simple protobuf sample code
@@ -28,3 +30,5 @@ google protobuf basic: https://developers.google.com/protocol-buffers/docs/cpptu
 protobuf example url: https://blog.csdn.net/K346K346/article/details/51754431
 C++ socket example url: https://www.geeksforgeeks.org/socket-programming-cc/
 integrate example url: https://blog.csdn.net/cjf_wei/article/details/52894560
+
+protobuf example: https://blog.csdn.net/tennysonsky/article/details/73921025

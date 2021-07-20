@@ -1,8 +1,12 @@
 syntax = "proto3";
 package myPackage;
 
-message student {
-  string name = 1;
-  int32 number = 2;
-  int32 id = 3;
+message DATA {
+  double x_axis = 1;
+  double y_axis = 2;
+}
+
+message DATAPACK{
+  uint32 cmd = 1;
+  repeated DATA data = 2;
 }
