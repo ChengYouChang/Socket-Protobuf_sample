@@ -6,10 +6,11 @@
 #include<iostream>
 
 // protobuf .h file
-#include"test0715.pb.h"
+#include"proto_file.pb.h"
 
 using namespace std;
 #define PORT 8080
+#define BUFSIZE 1024
    
 int main(int argc, char const *argv[])
 {
@@ -46,16 +47,16 @@ int main(int argc, char const *argv[])
     
     // ===========================================
     // protobuf test
-    cout<<"----------------------------\n";
-    myPackage::student s2;
-    char buf[1024];
+    cout<<"\n----------------------------\n";
+    cout<<"client:\n";
+    myPackage::DATA d2;
+    char buf[BUFSIZE];
 
-    read( sock , buf, 1024);
-	s2.ParseFromArray(buf, 1024);
-	cout<<"name: "<<s2.name()<<endl;
-	cout<<"number: "<<s2.number()<<endl;
-	cout<<"id: "<<s2.id()<<endl;
-
+    read( sock , buf, BUFSIZE);
+    
+	d2.ParseFromArray(buf, BUFSIZE);
+	cout<<"x_axis: "<<d2.x_axis()<<endl;
+    cout<<"y_axis: "<<d2.y_axis()<<endl;
     // ===========================================
     return 0;
 }

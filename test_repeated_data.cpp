@@ -1,35 +1,39 @@
 #include<iostream>
 #include<cstdlib>
+#include<time.h>
 using namespace std;
 
 // protobuf .h file
-#include"test0715.pb.h"
+#include"proto_file.pb.h"
 using namespace myPackage;
 
 #define BUFSIZE 1024
 #define FAKE_DATA_COUNT 3
+double fakeDataCreate(){
+    return (double)rand() / (RAND_MAX + 1.0)*10;
+}
 int main()
 {
-	cout<<"===== Create fake data and pack! =====\n";
+	cout<<"\n===== Create fake data and pack! =====\n";
 	// set dataPack cmd
 	DATAPACK dp;
     DATA *d;
 
     // for creating fake data
-    srand(1);   // random seed
+    srand(time(NULL));   // random seed
     double fake_data;
 
     dp.set_cmd(12);
     for(int i=0; i<FAKE_DATA_COUNT; i++){
-        cout<<"Data "<<i<<": ";
+        cout<<"Data "<<i<<" => ";
         d = dp.add_data();
 
-        fake_data = (double)rand() / (RAND_MAX + 1.0)*10;   // create a fake x_axis data (random double number)
-        d->set_x_axis(fake_data);                           // put it in data
-        cout<< fake_data<<',';
-        fake_data = (double)rand() / (RAND_MAX + 1.0)*10;   // create a fake x_axis data (random double number)
-        d->set_y_axis(fake_data);                           // put it in data
-        cout<< fake_data<<endl;
+        fake_data = fakeDataCreate();
+        d->set_x_axis(fake_data);
+        cout<<"x: "<< fake_data<<" | ";
+        fake_data = fakeDataCreate();
+        d->set_y_axis(fake_data);
+        cout<<"y: "<< fake_data<<endl;
     }
     cout<<"DATAs in DATAPACK: "<<dp.data_size()<<endl;
 
@@ -46,11 +50,11 @@ int main()
 
     for(int i=0; i<FAKE_DATA_COUNT; i++){
         d2 = dp2.data(i);
-        cout<<"DATA "<<i<<": ";
-        cout<<d2.x_axis()<<',';
-        cout<<d2.y_axis()<<endl;
+        cout<<"DATA "<< i <<" => ";
+        cout<<"x: "<< d2.x_axis()<<" | ";
+        cout<<"y: "<< d2.y_axis()<<"\n";
     }
     
-
+    cout<<endl;
     return 0;
 }

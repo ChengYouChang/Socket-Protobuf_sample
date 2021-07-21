@@ -1,32 +1,52 @@
 Date: 2021/07/15
 Author: Cheng You, Chang
 
-if you want to use alias=> source setMacro.sh
+if you want to use alias: 
+$ source setMacro.sh
 
 ==================================
 # protobuf and socket
-This is a simple protobuf sample code
+This is a simple protobuf example
 require env: proto3
 
 ## file discription
-test0715.proto: proto file needed in protobuf
-*compile this: protoc test0715.proto --cpp_out=./
+proto_file.proto: proto file needed in protobuf
+*compile this: 
+$ protoc proto_file.proto --cpp_out=./
+alias: proto
 
-testc.cpp: test cpp program
-*compile this: g++ testc.cpp test0715.pb.cc -lprotobuf
-*run: ./a.out 
+test_basic.cpp: basic test cpp program
+Testing basic protobuf pack and unpack
+*compile this: 
+$ g++ -o tb.out test_basic.cpp *.pb.cc -lprotobuf; 
+*execute: 
+$ ./tb.out
+alias: tb
 
-server0715.cpp: test server sample code
-*compile this: g++ -o server server0715.cpp test0715.pb.cc -lprotobuf
-*run: ./server
+test_server.cpp: test server sample code
+*compile this: 
+$ g++ -o server.out test_server.cpp *.pb.cc -lprotobuf
+*execute: 
+$ ./server.out
+alias: server
 
-client0715.cpp: test client sample code
-*compile this: g++ -o client client0715.cpp test0715.pb.cc -lprotobuf
-*run: ./client
+test_client.cpp: test client sample code
+*compile this: 
+$ g++ -o client.out test_client.cpp *.pb.cc -lprotobuf
+*execute: 
+$ ./client.out
+alias: client
+
+test_repeated_data.cpp: protobuf repeated sample code
+*compile this:
+$ g++ -o trd.out test_repeated_data.cpp *.pb.cc -lprotobuf
+*execute:
+$ ./trd.out
+alias: trd
 
 ==================================
 ref:
-google protobuf basic: https://developers.google.com/protocol-buffers/docs/cpptutorial
+google protobuf document: https://developers.google.com/protocol-buffers/docs/cpptutorial
 protobuf example url: https://blog.csdn.net/K346K346/article/details/51754431
 C++ socket example url: https://www.geeksforgeeks.org/socket-programming-cc/
 integrate example url: https://blog.csdn.net/cjf_wei/article/details/52894560
