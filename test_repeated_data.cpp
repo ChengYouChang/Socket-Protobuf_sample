@@ -8,6 +8,7 @@ using namespace std;
 using namespace myPackage;
 
 #define BUFSIZE 1024
+#define FAKE_CMD 123
 #define FAKE_DATA_COUNT 3
 double fakeDataCreate(){
     return (double)rand() / (RAND_MAX + 1.0)*10;
@@ -23,23 +24,30 @@ int main()
     srand(time(NULL));   // random seed
     double fake_data;
 
-    dp.set_cmd(12);
+    dp.set_cmd(FAKE_CMD);
+    cout<<"cmd: "<<FAKE_CMD<<endl;
+
     for(int i=0; i<FAKE_DATA_COUNT; i++){
         cout<<"Data "<<i<<" => ";
-        d = dp.add_data();
 
+        d = dp.add_data();      // add a data in dataPack
+
+        // set x
         fake_data = fakeDataCreate();
         d->set_x_axis(fake_data);
         cout<<"x: "<< fake_data<<" | ";
+
+        // set y
         fake_data = fakeDataCreate();
         d->set_y_axis(fake_data);
         cout<<"y: "<< fake_data<<endl;
     }
-    cout<<"DATAs in DATAPACK: "<<dp.data_size()<<endl;
+    cout<<"\nDATAs in DATAPACK: "<<dp.data_size()<<endl;
 
     // serialize to array
     char buf[BUFSIZE]={0};
 	dp.SerializeToArray(buf, BUFSIZE);
+
 
 	cout<<"\n----- unPack it, and check data -----\n";
 	// unpack, deserialize
@@ -48,7 +56,8 @@ int main()
     DATA d2;
     dp2.ParseFromArray(buf, BUFSIZE);
 
-    for(int i=0; i<FAKE_DATA_COUNT; i++){
+    cout<<"cmd: "<<dp.cmd()<<endl;
+    for(int i=0; i<dp2.data_size(); i++){
         d2 = dp2.data(i);
         cout<<"DATA "<< i <<" => ";
         cout<<"x: "<< d2.x_axis()<<" | ";
