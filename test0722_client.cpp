@@ -10,7 +10,7 @@
 
 using namespace std;
 #define PORT 8080
-#define BUFSIZE 1024
+#define BUFSIZE 100
    
 int main(int argc, char const *argv[])
 {
@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
     serv_addr.sin_port = htons(PORT);
        
     // Convert IPv4 and IPv6 addresses from text to binary form
-    if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) 
+    if(inet_pton(AF_INET, "10.21.11.19", &serv_addr.sin_addr)<=0) 
     {
         printf("\nInvalid address/ Address not supported \n");
         return -1;
@@ -54,11 +54,13 @@ int main(int argc, char const *argv[])
     myPackage::DATA d2;
     char buf[BUFSIZE];
 
+    for(int i=0;i<10;i++){
     recv(sock, buf, BUFSIZE, MSG_WAITALL);
     
 	d2.ParseFromArray(buf, BUFSIZE);
 	cout<<"x_axis: "<<d2.x_axis()<<endl;
     cout<<"y_axis: "<<d2.y_axis()<<endl;
+    }
     // ===========================================
     return 0;
 }

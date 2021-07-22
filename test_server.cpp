@@ -87,7 +87,7 @@ int main(int argc, char const *argv[])
 	// pack, serialize to string
 	char buf[BUFSIZE];
 	d.SerializeToArray(buf, BUFSIZE);
-    send(new_socket, buf, BUFSIZE, 0);
+    send(new_socket, buf, BUFSIZE, MSG_WAITALL);
     // ===========================================
     return 0;
 }
