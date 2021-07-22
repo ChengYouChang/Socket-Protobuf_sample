@@ -1,0 +1,24 @@
+Date: 2021/07/22
+Author: Cheng You, Chang
+
+if you want to use alias: 
+$ source setMacro.sh
+
+==================================
+This is an example of basic socket
+Send and received data without protobuf
+
+## file discription
+server_wo_protobuf.cpp: simple socket server example without using protobuf
+*compile this: 
+$ g++ -o server.out server_wo_protobuf.cpp
+*execute: 
+$ ./server.out
+alias: server
+
+client_wo_protobuf.cpp: simple socket client example without using protobuf
+*compile this: 
+$ g++ -o client.out client_wo_protobuf.cpp
+*execute: 
+$ ./client.out
+alias: client
