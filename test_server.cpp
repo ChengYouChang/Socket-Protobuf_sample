@@ -24,8 +24,8 @@ int main(int argc, char const *argv[])
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-    char buffer[1024] = {0};
-    char *hello = "Hello from server";
+    //char buffer[1024] = {0};
+    //char *hello = "Hello from server";
        
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -50,17 +50,21 @@ int main(int argc, char const *argv[])
     {
         perror("bind failed");
         exit(EXIT_FAILURE);
-    }
+    }else
+        cout<<"Socket bind success!\n";
+    
     if (listen(server_fd, 3) < 0)
     {
         perror("listen");
         exit(EXIT_FAILURE);
-    }
+    }else
+        cout<<"Socket listening...\n";
     if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen))<0)
     {
         perror("accept");
         exit(EXIT_FAILURE);
-    }
+    }else
+        cout<<"Socket accept!\n";
     //valread = read( new_socket , buffer, 1024);
     //printf("%s\n",buffer );
     //send(new_socket , hello , strlen(hello) , 0 );

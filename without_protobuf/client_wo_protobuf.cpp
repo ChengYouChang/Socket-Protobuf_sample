@@ -36,7 +36,8 @@ int main(int argc, char const *argv[])
     {
         printf("\n Socket creation error \n");
         return -1;
-    }
+    }else
+        cout<<"Socket create!\n";
    
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(PORT);
@@ -52,7 +53,8 @@ int main(int argc, char const *argv[])
     {
         printf("\nConnection Failed \n");
         return -1;
-    }
+    }else
+        cout<<"Socket connect!\n";
 
     //send(sock , hello , strlen(hello) , 0 );
     //printf("Hello message sent\n");
@@ -60,6 +62,7 @@ int main(int argc, char const *argv[])
     //printf("%s\n",buffer );
     
     // ===========================================
+    cout<<"-----------------------------\n";
     union fake_data x, y;
     char buf[BUFSIZE]={0};
     read( sock , buf, BUFSIZE);
