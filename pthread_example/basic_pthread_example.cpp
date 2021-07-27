@@ -12,6 +12,7 @@ int main(void)
 	pthread_create(&t1,NULL,thread1,NULL);
     pthread_create(&t2,NULL,thread2,NULL);
 	pthread_join(t1, 0);
+    pthread_join(t2, 0);
 
 	return 0;
 }

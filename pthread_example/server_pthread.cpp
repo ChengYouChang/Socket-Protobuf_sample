@@ -7,6 +7,8 @@
 #include <iostream>
 #include <time.h>
 #include <iomanip>
+#include <pthread.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -16,8 +18,18 @@ using namespace std;
 #define BUFSIZE 10
 //===============================================
 
+void *socket_connect(void*);
+void *thread2(void*);
+int main(){
+    pthread_t t1, t2;
+	pthread_create(&t1,NULL,socket_connect,NULL);
+    pthread_create(&t2,NULL,thread2,NULL);
+	pthread_join(t1, 0);
+    pthread_join(t2, 0);
 
-int main(int argc, char const *argv[])
+	return 0;
+}
+void *socket_connect(void* junk)
 {
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
@@ -78,4 +90,12 @@ int main(int argc, char const *argv[])
     // ===========================================
     cout<<endl;
     return 0;
+}
+
+void *thread2(void* junk){
+    for(int i=0;i<3;i++){
+        cout<<"This is thread 2\n";
+        usleep(1*1000000);
+    }
+    pthread_exit((void *)0);
 }
