@@ -9,8 +9,12 @@
 #include <iomanip>
 
 using namespace std;
+
+//===============================================
+// write your code in here!
 #define PORT 8080
 #define BUFSIZE 10
+//===============================================
 
 
 int main(int argc, char const *argv[])
@@ -19,7 +23,6 @@ int main(int argc, char const *argv[])
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-    char buf[BUFSIZE] = "hello";
        
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0)
@@ -61,9 +64,11 @@ int main(int argc, char const *argv[])
         cout<<"Socket accept!\n";
     
     // ===========================================
-    cout<<"===================================\n";
-    // data send
+    // write your code in here!
 
+    cout<<"===================================\n";
+    
+    char buf[BUFSIZE] = "hello";
     if(send(new_socket, buf, BUFSIZE, 0 )!=0){
         cout<<"Send: "<<buf<<" OK!\n";
     }else{
