@@ -68,7 +68,6 @@ void *client_recv_data(void *argv)
         else
             break;
     }
-    
     // ===========================================
     pthread_exit((void *)0);
 }

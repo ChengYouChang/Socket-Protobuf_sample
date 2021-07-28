@@ -76,8 +76,6 @@ void* server_send_data(void* argv)
 
     cout<<"===================================\n";
     int new_socket = *(int *)argv;
-    
-
     while(1){
         usleep(1*1000000);
         if(flag == '1'){
@@ -85,13 +83,11 @@ void* server_send_data(void* argv)
             cout<<"Send data OK\n";
         }
         else if(flag == '2'){
-            
             continue;
         }
         else
             break;
     }
-    
     // ===========================================
     cout<<endl;
     pthread_exit((void *)0);
