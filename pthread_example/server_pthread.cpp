@@ -23,6 +23,8 @@ void* server_send_data(void*);
 void *server_recv_cmd(void*);
 int send_data(int);
 char recv_cmd(int);
+
+
 int main(){
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
@@ -61,6 +63,10 @@ int main(){
         exit(EXIT_FAILURE);
     }else{cout<<"Socket accept!\n";}
     
+    //===============================================
+    // 3-axis init code
+    //===============================================
+
     pthread_t t1, t2;
 	pthread_create(&t1,NULL,server_send_data,&new_socket);
     pthread_create(&t2,NULL,server_recv_cmd, &new_socket);
@@ -71,9 +77,6 @@ int main(){
 }
 void* server_send_data(void* argv)
 {
-    // ===========================================
-    // write your code in here!
-
     cout<<"===================================\n";
     int new_socket = *(int *)argv;
     while(1){
@@ -88,14 +91,12 @@ void* server_send_data(void* argv)
         else
             break;
     }
-    // ===========================================
     cout<<endl;
     pthread_exit((void *)0);
 }
 
 void *server_recv_cmd(void* argv){
     usleep(1*1000000);
-    // ===========================================
     cout<<"===================================\n";
     int sock = *(int *)argv;
 
@@ -108,7 +109,6 @@ void *server_recv_cmd(void* argv){
     }
     cout<<"Socket close!\n";
     close(sock);
-    // ===========================================
     pthread_exit((void *)0);
 }
 
@@ -116,6 +116,10 @@ int send_data(int fd){
     char buf[BUFSIZE] = "hello";
     int retval;
     retval = send(fd, buf, BUFSIZE, 0);
+    // ===========================================
+    // 3-axis get XYZ data
+    // 3-axis data pack
+    // ===========================================
     return retval;
 }
 char recv_cmd(int fd){

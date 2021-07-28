@@ -1,6 +1,6 @@
 alias proto="protoc proto_file.proto --cpp_out=./"
 alias tb="g++ -o tb.out test_basic.cpp *.pb.cc -lprotobuf; ./tb.out; rm tb.out"
 alias trd="g++ -o trd.out test_repeated_data.cpp *.pb.cc -lprotobuf; ./trd.out; rm trd.out"
-alias server="g++ -o server.out test_server.cpp *.pb.cc -lprotobuf; ./server.out; rm server.out"
-alias client="g++ -o client.out test_client.cpp *.pb.cc -lprotobuf; ./client.out; rm client.out"
+alias server="clear; g++ -o server.out test_server.cpp *.pb.cc -lprotobuf; ./server.out; rm server.out"
+alias client="clear; g++ -o client.out test_client.cpp *.pb.cc -lprotobuf; ./client.out; rm client.out"
 alias clean="rm *.pb.h; rm *.pb.cc; rm *.out"

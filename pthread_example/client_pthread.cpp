@@ -15,10 +15,12 @@ using namespace std;
 #define BUFSIZE 10
 char flag='2';
 // ===========================================
+
 void *client_recv_data(void*);
 void *client_send_cmd(void*);
 int recv_data(int);
 void send_cmd(int, char);
+
 int main(int argc, char const *argv[])
 {
     int sock = 0, valread;
@@ -43,6 +45,10 @@ int main(int argc, char const *argv[])
         return -1;
     }else{cout<<"Socket connect!\n";}
 
+    // ===========================================
+    // 3-axis init code
+    // ===========================================
+
     pthread_t t1, t2;
 	pthread_create(&t1,NULL,client_recv_data, &sock);
     pthread_create(&t2,NULL,client_send_cmd, &sock);
@@ -53,8 +59,6 @@ int main(int argc, char const *argv[])
 
 void *client_recv_data(void *argv)
 {
-    // ===========================================
-    // write your code in here!
     cout<<"===================================\n";
     int sock = *(int *)argv;
 
@@ -68,14 +72,11 @@ void *client_recv_data(void *argv)
         else
             break;
     }
-    // ===========================================
     pthread_exit((void *)0);
 }
 
 void *client_send_cmd(void* argv){
     usleep(1*1000000);
-    // ===========================================
-    // write your code in here!
     cout<<"===================================\n";
     int new_socket = *(int *)argv;
 
@@ -93,13 +94,17 @@ void *client_send_cmd(void* argv){
     send(new_socket, &flag, 1, 0 );
     close(new_socket);
     cout<<"Socket close!\n";
-    // ===========================================
+
     pthread_exit((void *)0);
 }
 
 int recv_data(int fd){
     char buf[BUFSIZE]={0};
     int retval;
+    // ===========================================
+    // recv data
+    // unpack
+    // ===========================================
     retval = recv(fd, buf, BUFSIZE, 0);
     cout<<"Recv data: "<<buf<<endl;
     return retval;
