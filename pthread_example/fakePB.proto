@@ -1,0 +1,13 @@
+syntax = "proto3";
+package myFakePb;
+
+message ACC_DATA {
+  int32 x_axis = 1;
+  int32 y_axis = 2;
+  int32 z_axis = 3;
+}
+
+message DATAPACK{
+  uint32 cmd = 1;
+  repeated ACC_DATA data = 2;
+}

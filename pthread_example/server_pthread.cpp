@@ -9,28 +9,35 @@
 #include <iomanip>
 #include <pthread.h>
 #include <unistd.h>
-
-using namespace std;
-
 //===============================================
 // write your code in here!
+#include <time.h>
+#include <stdlib.h>
+#include "fakePB.pb.h"
+using namespace std;
+using namespace myFakePb;
+
 #define PORT 8080
-#define BUFSIZE 10
+#define BUFSIZE 100
 char flag='2';
+pthread_mutex_t mu;
 //===============================================
 
 void* server_send_data(void*);
 void *server_recv_cmd(void*);
-int send_data(int);
-char recv_cmd(int);
 
-
+int fake_data_creater(){
+    // return a random number between 0~8191
+    return rand()%8192;
+}
 int main(){
+    //socket init code
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
     int opt = 1;
     int addrlen = sizeof(address);
-       
+    //===========================================
+    //socket connect 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
         perror("socket failed");
@@ -38,7 +45,7 @@ int main(){
     }else{cout<<"Socket create success!\n";}
 
     // Forcefully attaching socket to the port 8080
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))){
+    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT , &opt, sizeof(opt))){
         perror("setsockopt");
         exit(EXIT_FAILURE);
     }else{cout<<"set socker opt OK!\n";}
@@ -64,28 +71,63 @@ int main(){
     }else{cout<<"Socket accept!\n";}
     
     //===============================================
-    // 3-axis init code
-    //===============================================
-
+    //thread
+    /*
+     t1 is send 3-axis data to client
+     t2 is recv cmd from client
+     do recv cmd from client and send 3-axis data to client
+    */
     pthread_t t1, t2;
-	pthread_create(&t1,NULL,server_send_data,&new_socket);
+    pthread_mutex_init(&mu, 0);
     pthread_create(&t2,NULL,server_recv_cmd, &new_socket);
-	pthread_join(t1, 0);
+    pthread_create(&t1,NULL,server_send_data, &new_socket);
+    pthread_join(t1, 0);
     pthread_join(t2, 0);
-    
-	return 0;
+    pthread_mutex_destroy(&mu);
+    //================================================
+    return 0;
 }
+/*
+ get and send 3-axis data to client
+*/
 void* server_send_data(void* argv)
 {
-    cout<<"===================================\n";
+    //===============================================
+    // init code
+    srand(time(NULL));      // set random seed
+    int xAccl, yAccl, zAccl;
+    ACC_DATA s1;
+    int c=0;
+    char tmp_flag;
+    char buf[BUFSIZE];
+
     int new_socket = *(int *)argv;
+    cout<<"===============ready to send=================\n";
+    // ===========================================
+    // get and send fake data
     while(1){
+        pthread_mutex_lock( &mu);
+        tmp_flag=flag;      // read flag
+        pthread_mutex_unlock( &mu);
+
+        if(tmp_flag == '1'){
         usleep(1*1000000);
-        if(flag == '1'){
-            send_data(new_socket);
-            cout<<"Send data OK\n";
+	    // get fake XYZ data
+	    xAccl = fake_data_creater();
+        yAccl = fake_data_creater();
+        zAccl = fake_data_creater();
+        cout<<"X: "<<xAccl<<"\nY: "<<yAccl<<"\nZ: "<<zAccl<<endl;
+        // data pack and send
+	    s1.set_x_axis(xAccl);
+	    s1.set_y_axis(yAccl);
+	    s1.set_z_axis(zAccl);
+	    s1.SerializeToArray(buf, BUFSIZE);
+	    send(new_socket, buf, BUFSIZE, 0);
+	    cout << c << endl;;
+	    c++;
+	    // ===========================================
         }
-        else if(flag == '2'){
+        else if(tmp_flag == '2'){
             continue;
         }
         else
@@ -94,41 +136,28 @@ void* server_send_data(void* argv)
     cout<<endl;
     pthread_exit((void *)0);
 }
-
+/*
+  recv cmd from client
+*/
 void *server_recv_cmd(void* argv){
-    usleep(1*1000000);
     cout<<"===================================\n";
     int sock = *(int *)argv;
-
+    char tmp_flag;
     while(1){
-        flag = recv_cmd(sock);
-        if(flag != '3')
+	recv(sock, &tmp_flag, 1, MSG_WAITALL);
+	cout<<"Recv cmd: "<<tmp_flag<<" OK!\n";
+	pthread_mutex_lock( &mu);
+	flag = tmp_flag;
+	pthread_mutex_unlock( &mu);
+        if(tmp_flag == '2'){
             continue;
-        else
+	}
+        else if(tmp_flag == '3'){
             break;
+	}
     }
     cout<<"Socket close!\n";
     close(sock);
     pthread_exit((void *)0);
 }
 
-int send_data(int fd){
-    char buf[BUFSIZE] = "hello";
-    int retval;
-    retval = send(fd, buf, BUFSIZE, 0);
-    // ===========================================
-    // 3-axis get XYZ data
-    // 3-axis data pack
-    // ===========================================
-    return retval;
-}
-char recv_cmd(int fd){
-    char cmd = '1';
-    if(recv(fd, &cmd, 1, 0)!=0){
-        cout<<"Recv cmd: "<<cmd<<" OK!\n";
-    }
-    else{
-        cout<<"Recv error!\n";
-    }
-    return cmd;
-}

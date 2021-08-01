@@ -52,3 +52,6 @@ C++ socket example url: https://www.geeksforgeeks.org/socket-programming-cc/
 integrate example url: https://blog.csdn.net/cjf_wei/article/details/52894560
 
 protobuf example: https://blog.csdn.net/tennysonsky/article/details/73921025
+
+pthread racing: https://sodocumentation.net/pthreads/topic/8243/race-condition-in-pthreads
+
