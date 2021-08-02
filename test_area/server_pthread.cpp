@@ -111,7 +111,7 @@ void* server_send_data(void* argv)
         pthread_mutex_unlock( &mu);
 
         if(tmp_flag == '1'){
-        usleep(0.5*1000000);      // tx delay time
+        //usleep(0.5*1000000);      // tx delay time
 	    // get fake XYZ data
 	    xAccl = fake_data_creater();
         yAccl = fake_data_creater();
