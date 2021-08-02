@@ -7,7 +7,6 @@
 #include <iomanip>
 #include <chrono>
 using namespace std;
-using namespace std::chrono;
 
 // ===========================================
 // write your code in here!
@@ -79,9 +78,15 @@ void *client_recv_data(void *argv)
     char old_flag;
     char tmp_flag;
     ACC_DATA s2;
-    high_resolution_clock::time_point t1, t2;
-    t1 = high_resolution_clock::now();
-    duration<double> time_span;
+
+    // ---------------------------------------
+    // test area
+    using std::chrono::high_resolution_clock;
+    using std::chrono::duration_cast;
+    using std::chrono::duration;
+    using std::chrono::milliseconds;
+    auto t1 = high_resolution_clock::now();
+    // ---------------------------------------
 
     pthread_mutex_lock( &mu);
     old_flag=flag;
@@ -100,16 +105,16 @@ void *client_recv_data(void *argv)
             //recv and unpack data
             recv( sock , buf, BUFSIZE, MSG_WAITALL);
             s2.ParseFromArray(buf, BUFSIZE);
-
-            t2 = high_resolution_clock::now();
-            time_span = duration_cast<duration<double>>(t2 - t1);
-            cout<<"Duration: "<< time_span <<endl;
+            
+            auto t2 = high_resolution_clock::now();
+            duration<double, std::milli> ms_double = t2 - t1;
             t1 = t2;
-            cout << endl;
+            
+            cout << "\n\n";
             cout<<"X: "<<s2.x_axis()<<endl;
             cout<<"Y: "<<s2.y_axis()<<endl;
             cout<<"Z: "<<s2.z_axis()<<endl;
-            cout << endl;
+            cout <<"============: Time: "<< ms_double.count() << "ms, "<< 1/ms_double.count()*1000<<"Hz\n";
         }
         else if(tmp_flag == '2'){
             old_flag=tmp_flag;
